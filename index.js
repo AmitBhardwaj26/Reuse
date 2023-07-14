@@ -58,19 +58,18 @@ const userschema = new mongoose.Schema({
   userid: {
     type: String,
     required: true,
-    // unique: true,
   },
   phoneno: {
     type: Number,
-    // unique: true,
-    // required: function () {
-    //   return (this.phoneno.length = 10);
-    // },
+    unique: true,
+    required: function () {
+      return (this.phoneno.length = 10);
+    },
   },
   email: {
     type: String,
     required: true,
-    // unique: true,
+    unique: true,
   },
   Password: {
     type: String,
@@ -140,38 +139,38 @@ app.get("/Login", async function (req, res) {
 });
 
 app.post("/Login", async function (req, res) {
-  const Phoneno = req.body.phoneno,
-    Passwordr = req.body.Password;
-  let IDPresent = await usermodel.findOne({ phoneno: Phoneno });
-
-  if (IDPresent) {
-    const passwordcompare = await bcrypt.compare(Passwordr, IDPresent.Password);
-    if (!passwordcompare) {
-      res.status(400).send("<h1>Incorrect Password</h1>");
-      return;
+  try {
+    const phoneno = req.body.phoneno;
+    const password = req.body.Password;
+    
+    const user = await usermodel.findOne({ phoneno: phoneno });
+    
+    if (user) {
+      const passwordCompare = await bcrypt.compare(password, user.Password);
+      
+      if (!passwordCompare) {
+        return res.status(400).send("<h1>Incorrect Password</h1>");
+      } else {
+        const data = {
+          user: {
+            id: user.id,
+          },
+        };
+        
+        const authtoken = jwt.sign(data, JWT_SECRET);
+        res.cookie("token", authtoken); // Store the token in a cookie
+        
+        res.redirect("/home"); // Redirect to the home page
+      }
     } else {
-      const data = {
-        user: {
-          id: IDPresent.id,
-        },
-      };
-      console.log(data);
-      const authtoken = jwt.sign(data, JWT_SECRET);
-      // what is this
-      // if (typeof localStorage === "undefined" || localStorage === null) {
-      //   var LocalStorage = require("node-localstorage").LocalStorage;
-      //   localStorage = new LocalStorage("./scratch");
-      // }
-
-      localStorage.set("token", authtoken);
-      res.status(200).redirect("home");
-      return;
+      return res.send("<h1>ID not found. Create a new account</h1>");
     }
-  } else {
-    res.send("<h1>ID not found Create a new account</h1>");
-    return;
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
   }
 });
+
 
 app.get("/home", fetchuser, function (req, res) {
   Productmodel.find({})
@@ -254,32 +253,24 @@ app.get("/Additems", async function (req, res) {
 });
 
 app.post("/Additems", fetchuser, async function (req, res) {
-  // console.log(req.body.name);
+  try {
+    const item1 = new Productmodel({
+      user: req.user.id,
+      productname: req.body.name,
+      price: req.body.price,
+      description: req.body.description,
+      phoneno: req.body.phoneno,
+      date: Date.now()
+    });
 
-  // const Phoneno = req.body.phoneno,
-  //   Passwordr = req.body.Password;
-
-  const item1 = new Productmodel({
-    user: req.user.id,
-    productname: req.body.name,
-    price: req.body.price,
-    description: req.body.description,
-    phoneno: req.body.phoneno,
-    date: Date.now()
-  });
-  // count=count+1;
-  let IDPresent = await usermodel.findOne({ phoneno: Phoneno });
-
-  if (!IDPresent) {
-    res.send("<h1>ID Not present </h1>");
-  } else if (IDPresent.Password !== Passwordr) {
-    res.send("<h1>Incorrect Password</h1>");
-  } else {
     await item1.save();
     res.send("Data saved successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
   }
-  res.send();
 });
+
 
 app.get("/myitems", async function (req, res) {
   res.render("Myitems.html");
