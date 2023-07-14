@@ -10,37 +10,71 @@
 
 <body>
    <h1>You are Done</h1>
+   <h1 class='heading_style'>Welcome To Reuse</h1>
+   <nav id="navbar">
+      <ul>
+         <li class="navbar_item active"><a href="/home">Home</a></li>
+         <li class="navbar_item active"><a href="#About">About</a></li>
+      </ul>
+      <div class="topright active"> 
+         <a href="/myitems">MyProfile</a>
+      </div>
+   </nav>
 
-   <script>
-      document.addEventListener('DOMContentLoaded', async function () {
-         // Execute this code when the DOM content has been loaded
-         if (localStorage.getItem('token') != null) {
-            try {
-               const response = await fetch('/home', {
-                  method: "POST",
-                  headers: {
-                     "Content-Type": "application/json",
-                     "auth-token": localStorage.getItem("token"),
-                  },
-               });
+   <div class="container">
+       <% x.forEach((y)=>{ %>
+           <div class="card">
+               <img src="" onerror="this.src='https://wallpapercave.com/wp/wp4056410.jpg'"  alt="mypic" class="card__img" />
+                <div class="card__info">
+                  <span class="card__category"><strong><%= y.productname %></strong></span>
+                  <h3 class="card__title">₹<%= y.price %></h3>
+                    <p class="card__description"><%= y.description %></p>
+                   <a href="" target="_blank">
+                    <button>Shop Now</button>
+                   </a>
+                </div>
+           </div>
+        <%})%>
+    </div>
 
-               if (response.status === 200) {
-                  console.log("Home page API is called successfully");
-                  const json = await response.json();
-                  // Process the response data here
-               } else {
-                  console.error('Request failed with status:', response.status);
-                  // Handle the error response appropriately
-               }
-            } catch (error) {
-               console.error('Request failed:', error);
-               // Display or handle the error message appropriately
-            }
-         } else {
-            window.location.href = '/login';
-         }
-      });
-   </script>
+    
 </body>
+
+<script>
+   document.addEventListener('DOMContentLoaded', async function () {
+      // Execute this code when the DOM content has been loaded
+      const token = localStorage.getItem('token');
+      console.log(token);
+      
+      // window.location.href = '/login';
+      console.log("homepage javascript is called");
+      if (localStorage.getItem('token') != null) {
+         try {
+            const response = await fetch('/home', {
+               method: "POST",
+               headers: {
+                  "Content-Type": "application/json",
+                  "auth-token": localStorage.getItem("token"),
+               },
+            });
+            const res = await response.json();
+            if (res.sucess === true) {
+               console.log("Home page API is called successfully");
+               console.log(res.products);
+
+               // Process the response data here
+            } else {
+               console.error('Request failed with status:', response.status);
+               // Handle the error response appropriately
+            }
+         } catch (error) {
+            console.error('Request failed:', error);
+            // Display or handle the error message appropriately
+         }
+      } else {
+         window.location.href = '/login';
+      }
+   });
+</script>
 
 </html>

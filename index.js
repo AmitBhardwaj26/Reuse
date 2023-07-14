@@ -171,17 +171,14 @@ app.post("/Login", async function (req, res) {
 });
 
 app.get("/home", function (req, res) {
-  // Productmodel.find({})
-  //   .then((x) => {
+  // const data =
   res.render("homepage.ejs");
-  // })
-  // .catch((error) => {
-  //   console.log(error);
-  // });
 });
 app.post("/home", fetchuser, async function (req, res) {
+  const products = await Productmodel.find();
+
   console.log("post request of home is called");
-  res.send({ sucess: true });
+  res.send({ sucess: true , products });
 });
 
 app.post("/getuser", fetchuser, async (req, res) => {
@@ -260,7 +257,7 @@ app.post("/Additems", fetchuser, async function (req, res) {
       description: req.body.description,
       date: Date.now(),
     });
-  console.log("data saved");
+    console.log("data saved");
     // await item1.save();
     res.send("Data saved successfully");
   } catch (error) {

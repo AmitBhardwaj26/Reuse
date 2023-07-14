@@ -8,11 +8,11 @@
     <!-- {{>headlinks}} -->
 </head>
 
-<body >
+<body>
 
     <!-- {{!-- fetching the navbar using hbs --}}
   {{>navbar}} -->
-    
+
     <section class="p-5 text-center" id="contact" style="background-size: cover; background-position: center center;">
         <section class="page" id="Key-velidation">
 
@@ -21,13 +21,14 @@
             <!-- Section description -->
             <h4 class="text-center font-weight-normal text-white mx-auto mb-4 pb-2">Provide us your Information</h4>
 
-            <form id="login-form" class="mb-5 mx-md-5" >
- 
-                <div class="row">   
+            <form id="login-form" class="mb-5 mx-md-5">
+
+                <div class="row">
                     <div class="col-md-6 mb-4">
 
                         <!-- phone No. -->
-                        <input id="phoneno" type="number" class="form-control" placeholder="Phoneno" name="phoneno" required>
+                        <input id="phoneno" type="number" class="form-control" placeholder="Phoneno" name="phoneno"
+                            required>
 
                     </div>
                 </div>
@@ -54,7 +55,7 @@
 
 </body>
 <script>
-document.getElementById('signup-form').addEventListener('submit', async function (event) {
+    document.getElementById('login-form').addEventListener('submit', async function (event) {
         event.preventDefault(); // Prevent form submission
 
         // Get form values
@@ -64,7 +65,7 @@ document.getElementById('signup-form').addEventListener('submit', async function
 
         // Make an API request to the Node.js backend
         try {
-            const response = await fetch('/signup', {
+            const response = await fetch('/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -81,7 +82,7 @@ document.getElementById('signup-form').addEventListener('submit', async function
                 localStorage.setItem('token', token);
 
                 // Redirect to a new page or perform other actions as needed
-                window.location.href = '/home'; 
+                window.location.href = '/home';
             } else {
                 throw new Error('Error: ' + response.status);
             }
@@ -92,4 +93,5 @@ document.getElementById('signup-form').addEventListener('submit', async function
     });
 
 </script>
+
 </html>
