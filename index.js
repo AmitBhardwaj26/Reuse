@@ -35,7 +35,7 @@ app.use(cors());
 // connect with mongoose
 const dbConnection = async () => {
   try {
-    await mongoose.connect("mongodb://localhost:27017", {
+    await mongoose.connect("mongodb+srv://admin-amit:Amitbhar3@cluster0.apybtrv.mongodb.net/", {
       //process.env.MONGO_URL
       dbname: "Reusedb",
       useNewUrlParser: true,
