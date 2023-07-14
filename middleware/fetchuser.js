@@ -1,24 +1,25 @@
-const jwt=require('jsonwebtoken');
-const JWT_SECRET="MY name is @mit";
+var jwt = require("jsonwebtoken");
+const secret = "MY name is @mit";
 
-var ls = require('local-storage');
+const fetchuser = (req, res, next) => {
+  // get the user from jwt token and append user_id to req object
+  const token = req.header("auth-token");
 
-const fetchuser = (req, res, next) =>{
-    //get the user from jwt token and add id to req object\
-    const token=req.header('token');
-    // const token=ls.get("token");
-    console.log(token);
-   
-    if(!token) 
-    {
-        res.status(401).send({error: "token not found"});
-    }
-    try{
-        const data =jwt.verify(token,JWT_SECRET);
-        req.user=data.user;
-       next();
-    }catch(error){
-        res.status(401).send({error: "some error occured"});
-    }
-}
+  if (!token) {
+    return res.status(401).send({ error: "Please okk use a valid token" });
+  }
+  try {
+    // here data is the payload(user_id) from which token is formed
+    // here we take token from request header and then we verify with secret_key
+    // and take out the payload(user_id) from token using secret_key
+    // add user_id in request body
+
+    const data = jwt.verify(token, secret);
+    req.user = data.user;
+    next(); // then process the next step
+  } catch (error) {
+    res.status(401).send({ error: "Please use a valid token" });
+  }
+};
+
 module.exports = fetchuser;

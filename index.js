@@ -92,6 +92,7 @@ app.get("/signup", async function (req, res) {
 });
 
 app.post("/signup", async function (req, res) {
+  console.log("signup api is called");
   try {
     const { name, userid, phoneno, email, Password } = req.body;
 
@@ -102,6 +103,7 @@ app.post("/signup", async function (req, res) {
     if (existingUser) {
       return res.status(400).send("Email or phone number already exists");
     }
+    console.log("user not found in database");
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(Password, salt);
@@ -113,7 +115,7 @@ app.post("/signup", async function (req, res) {
       email,
       Password: hashedPassword,
     });
-
+    console.log("user created in database");
     // Generate a JWT token
     const data = {
       user: {
@@ -123,20 +125,19 @@ app.post("/signup", async function (req, res) {
 
     const authtoken = jwt.sign(data, JWT_SECRET);
     console.log("Token set");
-    
-    res.status(200).send({ authtoken });
+    const sucess = true;
+    res.send({ sucess, authtoken });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
 });
 
-
-
 //autheticate a user
 app.get("/Login", async function (req, res) {
   res.render("Login.html");
 });
+
 app.post("/Login", async function (req, res) {
   try {
     const phoneno = req.body.phoneno;
@@ -157,7 +158,8 @@ app.post("/Login", async function (req, res) {
         };
 
         const authtoken = jwt.sign(data, JWT_SECRET);
-        res.status(200).cookie("token", authtoken); // Store the token in a cookie
+        const sucess = true;
+        res.send({ sucess, authtoken }); // Store the token in a cookie
       }
     } else {
       return res.send("<h1>ID not found. Create a new account</h1>");
@@ -168,16 +170,18 @@ app.post("/Login", async function (req, res) {
   }
 });
 
-
-
-app.get("/home", fetchuser, function (req, res) {
-  Productmodel.find({})
-    .then((x) => {
-      res.status(200).render("homepage.ejs", { x });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+app.get("/home", function (req, res) {
+  // Productmodel.find({})
+  //   .then((x) => {
+  res.render("homepage.ejs");
+  // })
+  // .catch((error) => {
+  //   console.log(error);
+  // });
+});
+app.post("/home", fetchuser, async function (req, res) {
+  console.log("post request of home is called");
+  res.send({ sucess: true });
 });
 
 app.post("/getuser", fetchuser, async (req, res) => {
@@ -234,9 +238,6 @@ const Productschema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  phoneno: {
-    type: Number,
-  },
   date: {
     type: Date,
     default: Date.now,
@@ -252,23 +253,21 @@ app.get("/Additems", async function (req, res) {
 
 app.post("/Additems", fetchuser, async function (req, res) {
   try {
-    const item1 = new Productmodel({
+    const item1 = await Productmodel.create({
       user: req.user.id,
       productname: req.body.name,
       price: req.body.price,
       description: req.body.description,
-      phoneno: req.body.phoneno,
-      date: Date.now()
+      date: Date.now(),
     });
-
-    await item1.save();
+  console.log("data saved");
+    // await item1.save();
     res.send("Data saved successfully");
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
 });
-
 
 app.get("/myitems", async function (req, res) {
   res.render("Myitems.html");

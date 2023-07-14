@@ -107,7 +107,7 @@
                 body: JSON.stringify({ email: email, Password: password, name: name, userid: Userid, phoneno: Phoneno })
             });
 
-            if (response.ok) {
+            if (response.status === 200) {
                 const json = await response.json();
                 // Assuming the response contains a JWT token
                 const token = json.authtoken;
