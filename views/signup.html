@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-Up</title>
+    <!-- {{>headlinks}} -->
+
+
+</head>
+
+<body>
+
+    <!-- {{!-- fetching the navbar using hbs --}}
+  {{>navbar}} -->
+
+    <section class="p-5 text-center" id="contact" style="background-size: cover; background-position: center center;">
+        <section class="page" id="Key-velidation">
+
+            <!-- Section heading -->
+            <h3 class="text-center font-weight-bold text-white mt-5 mb-3">Welcome To Signup</h3>
+            <!-- Section description -->
+            <h4 class="text-center font-weight-normal text-white mx-auto mb-4 pb-2">Provide us your Information</h4>
+
+            <form id="signup-form" class="mb-5 mx-md-5">
+
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+
+                        <!-- Name -->
+                        <input type="text" id="name" class="form-control" placeholder="name" name="name">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+
+                        <!-- userid-->
+                        <input type="text" id="userid" class="form-control" placeholder="User ID" name="userid">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+
+                        <!-- phone No. -->
+                        <input id="phoneno" type="number" class="form-control" placeholder="phoneno" name="phoneno"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+
+                        <!-- email -->
+                        <input id="email" type="email" class="form-control" placeholder="E-Mail" name="email" required>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+
+                        <!-- Password -->
+                        <input type="password" id="Password" class="form-control" placeholder="Password" name="Password"
+                            required>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <button type="submit" class="btn bg-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+        </section>
+    </section>
+
+    <!-- 
+{{!-- footer using hbs --}}
+  {{>footer}} -->
+
+
+</body>
+<script>
+
+    document.getElementById('signup-form').addEventListener('submit', async function (event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Get form values
+        var name = document.getElementById('name').value;
+        var Userid = document.getElementById('userid').value;
+        var Phoneno = document.getElementById('phoneno').value;
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('Password').value;
+
+
+        // Make an API request to the Node.js backend
+        try {
+            const response = await fetch('/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email, Password: password, name: name, userid: Userid, phoneno: Phoneno })
+            });
+
+            if (response.ok) {
+                const json = await response.json();
+                // Assuming the response contains a JWT token
+                const token = json.authtoken;
+
+                // Store the token in localStorage
+                localStorage.setItem('token', token);
+
+                // Redirect to a new page or perform other actions as needed
+                window.location.href = '/home'; 
+            } else {
+                throw new Error('Error: ' + response.status);
+            }
+        } catch (error) {
+            console.error('Request failed:', error);
+            // Display or handle the error message appropriately
+        }
+
+
+    });
+</script>
+
+</html>

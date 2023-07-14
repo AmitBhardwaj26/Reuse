@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{>headlinks}}
+</head>
+
+<body onload="myfunction()">
+    {{!-- fetching the navbar using hbs --}}
+  {{>navbar}}
+    
+    <section class="p-5 text-center" id="contact" style="background-size: cover; background-position: center center;">
+        <section class="page" id="Key-velidation">
+
+            <!-- Section heading -->
+            <h3 class="text-center font-weight-bold text-white mt-5 mb-3">Welcome {{users.name}}</h3>
+            <!-- Section description -->
+                
+            <form class="mb-5 mx-md-5" >
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+
+                        <!-- Name -->
+                        <textarea class="form-control rounded" id="message" rows="1" 
+                                name="Message: users.message">id: {{users.id}} </textarea>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+
+                        <!-- Name -->
+                        <textarea class="form-control rounded" id="message" rows="1" 
+                                name="Message: users.message">Name: {{users.name}} </textarea>
+                    </div>
+                </div> 
+                <div class="row">   
+                    <div class="col-md-6 mb-4">
+
+                        <!-- Roll No. -->
+                        <textarea class="form-control rounded" id="message" rows="1" 
+                                name="Message: users.message">Roll No: {{users.rollno}} </textarea>
+                    </div>
+                
+                    <div class="col-md-6 mb-4">
+
+                        <!-- Year -->
+                        <textarea class="form-control rounded" id="message" rows="1" 
+                                name="Message: users.message">Year: {{users.batch}} </textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+
+                        <!-- Role -->
+                        <textarea class="form-control rounded" id="message" rows="1" 
+                                name="Message: users.message">Role: {{users.role}} </textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="form-group mb-4">
+                            <textarea class="form-control rounded" id="message" rows="3" 
+                                name="Message: users.message">Message: {{users.message}} </textarea>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn bg-primary">Submit</button>
+                        </div>
+
+                </div>
+
+            </form>
+
+        </section>
+    </section>
+
+{{!-- footer using hbs --}}
+  {{>footer}}
+
+</body>
+
+</html>

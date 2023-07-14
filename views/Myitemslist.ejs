@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/index.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1 class='heading_style'>Welcome To Reuse</h1>
+    <nav id="navbar">
+       <ul>
+          <li class="navbar_item active"><a href="/home">Home</a></li>
+          <li class="navbar_item active"><a href="/About">About</a></li>
+       </ul>
+       <div class="topright active"> 
+          <a href="/additems">Add more items</a>
+       </div>
+    </nav>
+
+    <div class="container">
+        <% x.forEach((y)=>{ %>
+            <div class="card">
+                <img src="" onerror="this.src='https://wallpapercave.com/wp/wp4056410.jpg'"  alt="mypic" class="card__img" />
+                 <div class="card__info">
+                   <span class="card__category"><strong><%= y.productname %></strong></span>
+                   <h3 class="card__title">₹<%= y.price %></h3>
+                     <p class="card__description"><%= y.description %></p>
+                    <a href="" target="_blank">
+                     <button><a href="/edititem">Edit item</a></button>
+                     <button><a href="/deleteitem">Delete item</a></button>
+                    </a>
+                 </div>
+            </div>
+         <%})%>
+     </div>
+ 
+</body>
+</html>

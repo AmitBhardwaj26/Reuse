@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-Up</title>
+    <!-- {{>headlinks}} -->
+</head>
+
+<body onload="myfunction()">
+
+    <!-- {{!-- fetching the navbar using hbs --}}
+  {{>navbar}} -->
+    
+    <section class="p-5 text-center" id="contact" style="background-size: cover; background-position: center center;">
+        <section class="page" id="Key-velidation">
+
+            <!-- Section heading -->
+            <h3 class="text-center font-weight-bold text-white mt-5 mb-3">Add any item</h3>
+            <!-- Section description -->
+            <h4 class="text-center font-weight-normal text-white mx-auto mb-4 pb-2">Provide us the product Information</h4>
+
+            <form class="mb-5 mx-md-5" action="/Additems" method="POST">
+
+                <!-- <div class="row">
+                    <div class="col-md-12 mb-4">
+
+                         <input type="file" id="image" class="form-control" placeholder="image" name="image">
+
+                    </div>
+                </div>  -->
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+
+                        <!-- Name -->
+                        <input type="text" id="name" class="form-control" placeholder="name" name="name">
+
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+
+                        <!-- price-->
+                        <input type="number" id="price" class="form-control" placeholder="Price" name="price">
+
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="form-group mb-4">
+                        <textarea class="form-control rounded" id="Description" rows="3" placeholder="Description of the Product" name="description"></textarea>
+                    </div>
+                </div> 
+                <div class="row">   
+                    <div class="col-md-6 mb-4">
+
+                        <!-- phone No. -->
+                        <input id="phoneno" type="number" class="form-control" placeholder="phoneno" name="phoneno" required>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+
+                        <!-- Password -->
+                        <input type="password" id="Password" class="form-control" placeholder="Password" name="Password"
+                            required>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <button type="submit" class="btn bg-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+        </section>
+    </section>
+
+<!-- 
+{{!-- footer using hbs --}}
+  {{>footer}} -->
+
+
+</body>
+
+</html>

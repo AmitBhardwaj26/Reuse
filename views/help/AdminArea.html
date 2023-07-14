@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     {{>headlinks}}
+</head>
+
+<body onload="myfunction()">
+    {{!-- fetching the navbar using hbs --}}
+  {{>navbar}}
+
+    <!-- <hr>
+    <br> -->
+    <section class="p-5 text-center" id="contact" style="background-size: cover; background-position: center center;">
+        <section class="page" id="Key-velidation">
+
+            <!-- Section heading -->
+            <h3 class="text-center font-weight-bold text-white mt-5 mb-3">Welcome To Admin-Area</h3>
+
+            <div class="btn-group-vertical-centre" role="group" aria-label="Vertical button group">
+              <a  href="/Add"><button type="button" class="btn btn-outline-primary mx-3 my-3">Add Data</button></a>
+              <!-- <a  href="AdminLogin.html"><button type="button" class="btn btn-outline-primary mx-3 my-3">Admin login</button></a> -->
+              <a href="/Update"><button type="button" class="btn btn-outline-primary mx-3 my-3">Update Data</button></a>
+              <a href="/Delete"><button type="button" class="btn btn-outline-primary mx-3 my-3">Delete Data</button></a>
+              <a href="/UpdatePassword"><button type="button" class="btn btn-outline-primary mx-3 my-3">Update Password</button></a>
+              <a href="/VerificationusingRollno"><button type="button" class="btn btn-outline-primary mx-3 my-3">Verification using Roll. No</button></a>
+            </div>
+
+        </section>
+    </section>
+
+   {{!-- footer using hbs --}}
+  {{>footer}}
+  
+</body>
+
+</html>
