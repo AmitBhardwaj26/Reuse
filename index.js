@@ -137,17 +137,16 @@ app.post("/signup", async function (req, res) {
 app.get("/Login", async function (req, res) {
   res.render("Login.html");
 });
-
 app.post("/Login", async function (req, res) {
   try {
     const phoneno = req.body.phoneno;
     const password = req.body.Password;
-    
+
     const user = await usermodel.findOne({ phoneno: phoneno });
-    
+
     if (user) {
       const passwordCompare = await bcrypt.compare(password, user.Password);
-      
+
       if (!passwordCompare) {
         return res.status(400).send("<h1>Incorrect Password</h1>");
       } else {
@@ -156,11 +155,9 @@ app.post("/Login", async function (req, res) {
             id: user.id,
           },
         };
-        
+
         const authtoken = jwt.sign(data, JWT_SECRET);
-        res.cookie("token", authtoken); // Store the token in a cookie
-        
-        res.redirect("/home"); // Redirect to the home page
+        res.status(200).cookie("token", authtoken); // Store the token in a cookie
       }
     } else {
       return res.send("<h1>ID not found. Create a new account</h1>");
@@ -170,6 +167,7 @@ app.post("/Login", async function (req, res) {
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 
 app.get("/home", fetchuser, function (req, res) {
